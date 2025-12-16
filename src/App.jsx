@@ -1,17 +1,20 @@
 import { useState } from "react";
 
 const App = () => {
-   const [count, setCount] = useState(0);
+   const [text, setText] = useState('hello');
 
-   const handleClick = () => {
-      setCount(count + 2.5)
+   const handleChange = (e) => {
+      setText(e.target.value)
    };
    return (
       <div>
+         <input value={text} onChange={handleChange} />
          <p>
-            Your wage is: {count} USD
+            You typed: {text}
          </p>
-         <button onClick={handleClick}>Add wage</button>
+         <button onClick={() => setText('hello')}>
+            Reset
+         </button>
       </div>
    );
 };
