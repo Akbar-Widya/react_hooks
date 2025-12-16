@@ -1,20 +1,19 @@
 import { useState } from "react";
 
 const App = () => {
-   const [text, setText] = useState('hello');
+   const [liked, setLiked] = useState(true);
 
    const handleChange = (e) => {
-      setText(e.target.value)
+      setLiked(e.target.checked)
    };
    return (
       <div>
-         <input value={text} onChange={handleChange} />
-         <p>
-            You typed: {text}
-         </p>
-         <button onClick={() => setText('hello')}>
-            Reset
-         </button>
+         <label htmlFor="">
+            <input type="checkbox" checked={liked} onChange={handleChange} />
+            I liked this
+         </label>
+
+         <p>You {liked ? "liked" : "did not like"} this.</p>
       </div>
    );
 };
