@@ -4,7 +4,7 @@ const App = () => {
    const [age, setAge] = useState(34);
 
    const increment = () => {
-      setAge(a + 1)
+      setAge(age + 1)
    }
    return (
       <>
