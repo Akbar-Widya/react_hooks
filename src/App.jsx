@@ -1,27 +1,56 @@
 import { useState } from "react";
 
 const App = () => {
-   const [age, setAge] = useState(34);
-
-   const increment = () => {
-      setAge(age + 1)
-   }
+   const [form, setForm] = useState({
+      firstName: "Barbara",
+      lastName: "Hepworth",
+      email: "bhepworth@sculpture.com",
+   });
    return (
       <>
-         <h1>Your age : {age}</h1>
-         <button
-            onClick={() => {
-               increment()
-               increment()
-               increment()
-            }}
-         >+3</button>
-         <button
-            onClick={() => {
-               increment()
-            }}
-         >+1</button>
-         <p>this can't work because does not use updater function</p>
+         <label>
+            First name:
+            <input
+               value={form.firstName}
+               onChange={(e) => {
+                  setForm({
+                     ...form,
+                     firstName: e.target.value,
+                  });
+                  // dont update object or array directly
+                  // {setForm(form.firstName = e.target.value)}
+               }}
+            />
+         </label>
+         <label>
+            Last name:
+            <input
+               value={form.lastName}
+               onChange={(e) => {
+                  setForm({
+                     ...form,
+                     lastName: e.target.value,
+                  });
+               }}
+            />
+         </label>
+         <label>
+            First name:
+            <input
+               value={form.email}
+               onChange={(e) => {
+                  setForm({
+                     ...form,
+                     email: e.target.value,
+                  });
+               }}
+            />
+         </label>
+         <p>
+            {form.firstName}{' '}
+            {form.lastName}{' '}
+            {form.email}
+         </p>
       </>
    );
 };
