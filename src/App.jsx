@@ -1,20 +1,17 @@
 import { useState } from "react";
 
 const App = () => {
-   const [liked, setLiked] = useState(true);
-
-   const handleChange = (e) => {
-      setLiked(e.target.checked)
-   };
+   const [name, setName] = useState("Taylor");
+   const [age, setAge] = useState(34);
    return (
-      <div>
-         <label htmlFor="">
-            <input type="checkbox" checked={liked} onChange={handleChange} />
-            I liked this
-         </label>
-
-         <p>You {liked ? "liked" : "did not like"} this.</p>
-      </div>
+      <>
+         <input value={name} onChange={(e) => setName(e.target.value)} />
+         <button onClick={() => setAge(age + 1)}>Increment age</button>
+         <button onClick={() => setAge(age - 1)}>Decrement age</button>
+         <p>
+            Hello, {name}. You are {age}.
+         </p>
+      </>
    );
 };
 export default App;
