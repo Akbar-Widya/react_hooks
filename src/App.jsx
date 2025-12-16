@@ -4,7 +4,7 @@ const App = () => {
    const [age, setAge] = useState(34);
 
    const increment = () => {
-      setAge(a => a + 1)
+      setAge(a + 1)
    }
    return (
       <>
@@ -21,6 +21,7 @@ const App = () => {
                increment()
             }}
          >+1</button>
+         <p>this can't work because does not use updater function</p>
       </>
    );
 };
