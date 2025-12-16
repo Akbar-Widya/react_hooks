@@ -3,22 +3,24 @@ import { useState } from "react";
 const App = () => {
    const [age, setAge] = useState(34);
 
-   const handleClickOne = () => {
-      setAge(age + 1);
-      setAge(age + 1);
-      setAge(age + 1);
-   };
-
-   const handleClickTwo = () => {
-      setAge((a) => a + 1);
-      setAge((a) => a + 1);
-      setAge((a) => a + 1);
-   };
+   const increment = () => {
+      setAge(a => a + 1)
+   }
    return (
       <>
-         <p>Your age is: {age}</p>
-         <button onClick={handleClickOne}>Add</button>
-         <button onClick={handleClickTwo}>Add using updater fun</button>
+         <h1>Your age : {age}</h1>
+         <button
+            onClick={() => {
+               increment()
+               increment()
+               increment()
+            }}
+         >+3</button>
+         <button
+            onClick={() => {
+               increment()
+            }}
+         >+1</button>
       </>
    );
 };
