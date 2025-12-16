@@ -1,19 +1,17 @@
 import { useState } from "react";
 
 const App = () => {
-   const [name, setName] = useState("Taylor");
-   const [age, setAge] = useState(27);
+   const [count, setCount] = useState(0);
 
    const handleClick = () => {
-      setName("Vinettro");
-      setAge(25);
+      setCount(count + 2.5)
    };
    return (
       <div>
          <p>
-            My name is {name} and I am {age} years old.
+            Your wage is: {count} USD
          </p>
-         <button onClick={handleClick}>Change</button>
+         <button onClick={handleClick}>Add wage</button>
       </div>
    );
 };
