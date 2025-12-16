@@ -1,16 +1,24 @@
 import { useState } from "react";
 
 const App = () => {
-   const [name, setName] = useState("Taylor");
    const [age, setAge] = useState(34);
+
+   const handleClickOne = () => {
+      setAge(age + 1);
+      setAge(age + 1);
+      setAge(age + 1);
+   };
+
+   const handleClickTwo = () => {
+      setAge((a) => a + 1);
+      setAge((a) => a + 1);
+      setAge((a) => a + 1);
+   };
    return (
       <>
-         <input value={name} onChange={(e) => setName(e.target.value)} />
-         <button onClick={() => setAge(age + 1)}>Increment age</button>
-         <button onClick={() => setAge(age - 1)}>Decrement age</button>
-         <p>
-            Hello, {name}. You are {age}.
-         </p>
+         <p>Your age is: {age}</p>
+         <button onClick={handleClickOne}>Add</button>
+         <button onClick={handleClickTwo}>Add using updater fun</button>
       </>
    );
 };
