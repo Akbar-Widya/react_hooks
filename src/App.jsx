@@ -1,61 +1,54 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createConnection } from "./chat";
 
-const App = () => {
-   const [person, setPerson] = useState({
-      name: "Niki de Saint Phalle",
-      artwork: {
-         title: "Blue Nana",
-         city: "Hamburg",
-         image: "https://i.imgur.com/Sd1AgUOm.jpg",
-      },
-   });
+const ChatRoom = ({ roomId }) => {
+   const [serverUrl, setServerUrl] = useState("http://localhost:3000");
 
-   const handleNameChange = (e) => {
-      setPerson({ ...person, name: e.target.value });
-   };
-   const handleTitleChange = (e) => {
-      setPerson({
-         ...person,
-         artwork: { ...person.artwork, title: e.target.value },
-      });
-   };
-   const handleCityChange = (e) => {
-      setPerson({
-         ...person,
-         artwork: { ...person.artwork, city: e.target.value },
-      });
-   };
-   const handleImageChange = (e) => {
-      setPerson({
-         ...person,
-         artwork: { ...person.artwork, image: e.target.value },
-      });};
+   useEffect(() => {
+      const connection = createConnection(serverUrl, roomId);
+      connection.connect();
+      console.log(`Connected to room: ${roomId} at ${serverUrl}`);
+      // a cleanup function
+      // one of its usage is to remove old dependencies, when the dependencies change
+      return () => {
+         connection.disconnect();
+      };
+   }, [serverUrl, roomId]);
    return (
       <>
          <label>
-            Name:
-            <input value={person.name} onChange={handleNameChange} />
+            Server URL:{' '}
+            <input
+               value={serverUrl}
+               onChange={e => setServerUrl(e.target.value)}
+            />
          </label>
+         <h1>Welcome to the {roomId} room!</h1>
+      </>
+   );
+};
+
+const App = () => {
+   const [roomId, setRoomId] = useState("general");
+   const [show, setShow] = useState(false);
+   return (
+      <>
          <label>
-            Title:
-            <input value={person.artwork.title} onChange={handleTitleChange} />
+            Choose the chat room:{' '}
+            <select
+               value={roomId}
+               onChange={e => setRoomId(e.target.value)}
+            >
+               <option value="general">general</option>
+               <option value="travel">travel</option>
+               <option value="music">music</option>
+            </select>
          </label>
-         <label>
-            City:
-            <input value={person.artwork.city} onChange={handleCityChange} />
-         </label>
-         <label>
-            Image:
-            <input value={person.artwork.image} onChange={handleImageChange} />
-         </label>
-         <p>
-            <i>{person.artwork.title}</i>
-            {" by "}
-            {person.name}
-            <br />
-            (located in {person.artwork.city})
-         </p>
-         <img src={person.artwork.image} alt={person.artwork.title} />
+         <button onClick={() => setShow(!show)}>
+            {show ? 'Close chat' : 'Open chat'}
+         </button>
+         {show && <hr />}
+         {show && <ChatRoom roomId={roomId} />}
       </>
    );
 };
