@@ -1,52 +1,28 @@
-import { useCallback, memo } from 'react';
+import { useState } from 'react';
 
-const fetchedData=[
-  {id:1, data:[1,2,3]},
-  {id:2, data:[4,5,6]},
-  {id:3, data:[7,8,9]},
-];
-
-export default function App({fetchedData}) {
+// ❌ NO MEMO: Component re-renders every time parent does
+function TaskItem({ task, onDelete }) {
+  console.log(`%c [Child] Rendered: ${task.text}`, "color: orange");
   return (
-    <>
-      <ReportList items={fetchedData} />
-    </>
-  );
-}
-
-function ReportList({ items }) {
-  return (
-    <article>
-      {items.map(item =>
-        <Report key={item.id} item={item} />
-      )}
-    </article>
-  );
-}
-
-function sendReport(item) {
-  console.log('Sending report for item', item.id);
-}
-
-function Report({ item }) {
-  // ✅ Call useCallback at the top level:
-  // callback memoizes the function reference, aka create an ID. so it can be use on comparison between prev and next render
-  const handleClick = useCallback(() => {
-    sendReport(item)
-  }, [item]);
-
-  return (
-    <figure>
-      <Chart onClick={handleClick} />
-    </figure>
-  );
-}
-
-// memo tells to skip re-render on met condition
-const Chart = memo(function Chart({ onClick }) {
-  return (
-    <div onClick={onClick} style={{width:100, height:100, backgroundColor:'lightblue', margin:'10px'}}>
-      Chart (click me)
+    <div style={{ border: '1px solid #ddd', padding: '10px', margin: '5px' }}>
+      {task.text} <button onClick={() => onDelete(task.id)}>Delete</button>
     </div>
   );
-})
+}
+
+export default function App() {
+  const [query, setQuery] = useState('');
+  const [tasks, setTasks] = useState([{ id: 1, text: 'Task A' }, { id: 2, text: 'Task B' }]);
+
+  // ❌ NEW ID EVERY TIME: Function is recreated on every keystroke
+  const handleDelete = (id) => {
+    setTasks(prev => prev.filter(t => t.id !== id));
+  };
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Type..." />
+      {tasks.map(task => <TaskItem key={task.id} task={task} onDelete={handleDelete} />)}
+    </div>
+  );
+}
