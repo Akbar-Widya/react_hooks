@@ -1,27 +1,26 @@
-import { useState, useCallback, memo } from 'react';
+import { useState } from "react";
+// Form Component
+const App = () => {
+   const [firstName, setFirstName] = useState("Priest");
+   const [lastName, setLastName] = useState("Gregor");
 
-const TaskItem = memo(({ task, onDelete }) => {
-  console.log(`%c [Child] Rendered: ${task.text}`, "color: orange");
-  return (
-    <div style={{ border: '1px solid #ddd', padding: '10px', margin: '5px' }}>
-      {task.text} <button onClick={() => onDelete(task.id)}>Delete</button>
-    </div>
-  );
-});
-
-export default function App() {
-  const [query, setQuery] = useState('');
-  const [tasks, setTasks] = useState([{ id: 1, text: 'Task A' }, { id: 2, text: 'Task B' }]);
-
-  // ✅ STABLE ID: useCallback stops the "ID" from changing
-  const handleDelete = useCallback((id) => {
-    setTasks(prev => prev.filter(t => t.id !== id));
-  }, []);
-
-  return (
-    <div style={{ padding: '20px' }}>
-      <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Type..." />
-      {tasks.map(task => <TaskItem key={task.id} task={task} onDelete={handleDelete} />)}
-    </div>
-  );
-}
+   const handleFirstNameChange = (e) => {
+      setFirstName(e.target.value);
+   };
+   const handleLastNameChange = (e) => {
+      setLastName(e.target.value)
+   }
+   return (
+      <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+         <label>
+            First name:
+            <input value={firstName} onChange={handleFirstNameChange} />
+         </label>
+         <label>
+            Last name:
+            <input value={lastName} onChange={handleLastNameChange} />
+         </label>
+      </div>
+   );
+};
+export default App;
