@@ -1,26 +1,32 @@
 import { useState } from "react";
 // Form Component
 const App = () => {
-   const [firstName, setFirstName] = useState("Priest");
-   const [lastName, setLastName] = useState("Gregor");
-
-   const handleFirstNameChange = (e) => {
-      setFirstName(e.target.value);
-   };
-   const handleLastNameChange = (e) => {
-      setLastName(e.target.value)
-   }
+   const firstNameProps = useFormInput('Mao')
+   const lastNameProps = useFormInput('Ryoshu')
    return (
       <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
          <label>
             First name:
-            <input value={firstName} onChange={handleFirstNameChange} />
+            <input {...firstNameProps} />
          </label>
          <label>
             Last name:
-            <input value={lastName} onChange={handleLastNameChange} />
+            <input {...lastNameProps} />
          </label>
       </div>
    );
 };
 export default App;
+
+// Well, if you have many custom hooks, you do want to separate them into their own files.
+const useFormInput = (initialValue) => {
+   const [value, setValue] = useState(initialValue)
+   const handleChange = (e) => {
+      setValue(e.target.value);
+   };
+   const inputProps = {
+      value: value,
+      onChange: handleChange
+   }
+   return inputProps
+}
